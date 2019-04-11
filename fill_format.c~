@@ -6,12 +6,14 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 15:08:54 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/04 16:40:59 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/05 16:21:53 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
+/*
+**сдвигаем фигуру влево
+*/
 char	**turn_left(char **glade)
 {
 	char buf;
@@ -34,7 +36,9 @@ char	**turn_left(char **glade)
 	}
 	return (glade);
 }
-
+/*
+**сдвигаем фигуру вверх
+*/
 char	**turn_up(char **glade)
 {
 	char *buf;
@@ -50,7 +54,9 @@ char	**turn_up(char **glade)
 	}
 	return (glade);
 }
-
+/*
+**записываем строку в массив
+*/
 char	**filling_array(char *buf, char **glade, char letter)
 {
 	int i;
@@ -81,7 +87,9 @@ char	**filling_array(char *buf, char **glade, char letter)
 	return (turn_left(turn_up(glade)));
 	//return (turn_up(glade));
 }
-
+/*
+**выделяем память под массив
+*/
 char	**str_to_array(char *buf, char letter)
 {
 	char    **glade;
