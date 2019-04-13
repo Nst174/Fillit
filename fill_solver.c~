@@ -6,7 +6,7 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:44:59 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/09 21:58:52 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/11 18:22:49 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,15 @@ int where_coord(char **final_f, t_fill *lists, int g)
 					{
 						write(1, "NNN\n", 4);
 						write_f_f(final_f, k, i, j, g);
+						write(1, "III\n\n", 5);
 						k = k->next;
+						write(1, "LLL\n\n", 5);
 						//print(k);
 						a++;
+						
 					}
-					if (itap(final_f, k, i, j, g) == 0 && 
+					write(1, "KKK\n\n", 5);
+					if (k != NULL && itap(final_f, k, i, j, g) == 0 && 
 							 i >= (g - 1) && j >= (g - 1) && a != g)
 					{
 						write(1, "SPp\n", 4);
@@ -145,16 +149,17 @@ int where_coord(char **final_f, t_fill *lists, int g)
 						j = 0;
 						lists = k;
 						a = 0;
-						print2(k);
-						//print3(final_f);
+								print2(k);
+								//print3(final_f);
 					}
 					/*if (a > 5)
 					{
 						break;
 						}*/
 					//write(1, "D", 1);
+					write(1, "F1", 2);
 					i++;
-					//write(1, "F", 1);
+					write(1, "F", 1);
 				}
 				i = 0;
 				j++;
@@ -164,11 +169,11 @@ int where_coord(char **final_f, t_fill *lists, int g)
 			//k = k->next;// решает если подряд не помещаются
 			i = 0;
 			j = 0;
-			write(1, "GGG\n\n", 5);
+			write(1, "\nHHH\n", 5);
 			//write(1, "H", 1);
 		}
 	//write(1, "L", 1);
-	return(0);
+	return (0);
 }
 /*
 **

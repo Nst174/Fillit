@@ -6,7 +6,7 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/26 16:33:21 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/11 11:44:16 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/13 18:32:27 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,35 +178,25 @@ int		main(int argc, char **argv)
 	h_f = how_fields(fd);
 	//printf("%d", h_f);
 	k = push(h_f);
-	k1 = k;
-	while (k1 != NULL)
-    {
-        //write(1, &k->field, 1);
-        printf("%c", k1->letter);
-        k1 = k1->next;
-    }
-
-
-
 
 	//printf("%c", '\n');
 	close(fd);
 	fd = open(argv[1], O_RDONLY);
 	add_field(fd, k);
 
-	k1 = k;
+	/*k1 = k;
 	while (k1 != NULL)
     {
         //write(1, &k->field, 1);
         printf("%c", k1->letter);
         k1 = k1->next;
     }
-
+	*/
 	f_f = create_final_f(h_f);
 
-	field_in_final_f(f_f, k, h_f, ft_sqrt_mod(h_f * 4));
+	f_f = field_in_final_f(f_f, k, h_f, ft_sqrt_mod(h_f * 4));
 	write(1, "OOO\n\n", 5);
-	while (j < 4)
+	while (j < 5)
 	{
 		printf("%s\n", f_f[j]);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 20:48:26 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/09 21:57:22 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/11 19:02:52 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	print2(t_fill *lists)
 
 	i = 0;
     j = 0;
-    while (lists->next != NULL)
+    while (lists != NULL)
     {
         while (j < 4)
         {
@@ -111,10 +111,13 @@ void sort_b_m(t_fill *sort_mass)
     t_fill *u1;
     t_fill *u2;
 
+	
 	write(1, "S-20\n", 5);
 	sm = sort_mass;
+	//print2(sm);
 	while (sm->next != NULL)
 	{
+		write(1, "S-20-1\n", 7);
 		u1 = sm;
 		l1 = sm->last;
 		n1 = sm->next;
@@ -122,16 +125,31 @@ void sort_b_m(t_fill *sort_mass)
 		l2 = sm->next->last;
 		n2 = sm->next->next;
 		write(1, "S-21\n", 5);
+		//print2(sm);
 		if (sm->letter > sm->next->letter)
 		{
 			write(1, "S-22\n", 5);
-			l1->next = u2;
-			n2->last = u1;
-			u1->next = n2;
-			u1->last = n1;
-			u2->next = l2;
-			u2->last = l1;
-			sm = u2;
+			if (n2 == NULL)
+			{
+				write(1, "S-22-1\n", 7);
+				l1->next = u2;
+				u2->last = l1;
+				u2->next = u1;
+				u1->last = u2;
+				u1->next = NULL;
+				sm = u2;
+			}
+			else
+			{
+				write(1, "S-22-2\n", 7);
+				l1->next = u2;
+				n2->last = u1;
+				u1->next = n2;
+				u1->last = n1;
+				u2->next = l2;
+				u2->last = l1;
+				sm = u2;
+			}
 		}
 		else
 		{
@@ -139,6 +157,7 @@ void sort_b_m(t_fill *sort_mass)
 			sm = sm->next;
 		}
 		write(1, "S-24\n", 5);
+		//print2(sm);
 	}
 	write(1, "S-25\n", 5);
 }
@@ -191,17 +210,29 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 	r = u1;
 	j = 1;
 	write(1, "S-7\n", 4);
+
+	char o;
+	o = 'o';
+
 	while (r->letter != u1->letter + j)
 	{
+		//write(1, o, 1);
+		write(1, &r->letter, 1);
 		write(1, "S-8\n", 4);
-		if (r  ==  NULL)
+		if (r->next  ==  NULL /*&& r->letter != u1->letter + j*/)
 		{
 			write(1, "S-9\n", 4);
 			j++;
 			r = u1;
 		}
+		//print2(r);
+		//write(1, "-----\n", 6);
+		//print2(u1);
+		write(1, "S-8-1\n", 6);
 		r = r->next;
+		write(1, "S-8-2\n", 6);
 	}
+
 	write(1, "S-10\n", 5);
 	u2 = r;
 	write(1, "S-11\n", 5);
@@ -209,40 +240,78 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 	write(1, "S-12\n", 5);
 	n2 = r->next;
 	write(1, "S-13\n", 5);
-	write(1, &r->letter, 1);
-	write(1, &n2->letter, 1);
-	if (n2->next == NULL)
-	{
-		write(1, "S-13-1\n", 7);
-		u1->next = n2;
-        u1->last = n1;
-        u2->next = l2;
-        u2->last = l1;
-		n1->next = u1;
-		n1->last = u2;
-		l1->next = u2;
-	}
+//	write(1, &r->letter, 1);
+
 	if (u1->last == NULL)
 	{
+		write(1, "S-13-1\n", 7);
+		letter1 = u1->letter;
+        field1 = u1->field;
+        u1->letter = u2->letter;
+        u1->field = u2->field;
+        u2->letter = letter1;
+        u2->field = field1;
+		sort_b_m(u1->next);
+	}
+	else if (n2 == NULL)
+	{
+		write(1, "S-13-2\n", 7);
+		letter1 = u1->letter;
+        field1 = u1->field;
+        u1->letter = u2->letter;
+        u1->field = u2->field;
+        u2->letter = letter1;
+        u2->field = field1;
+        sort_b_m(u1->next);
+		/*
+		if (u1 != l2 && u2 != n1)
+		{
+			n1->next = u1;
+			n1->last = u2;
+		}
+		*/
+/*
 		write(1, "S-999\n", 6);
 		letter1 = u1->letter;
 		field1 = u1->field;
 		u1->letter = u2->letter;
-		u1->field = u2->field;
-		u2->letter = letter1;
-		u2->field = field1;
-		/*
-		u1->next = n2;
-		u1->last = n1;
-		u2->next = l2;
-		u2->last = l1;
+        u1->field = u2->field;
+        u2->letter = letter1;
+        u2->field = field1;
+
+		if (u1 != l2 && u2 != n1)
+		{
+			n1->next = u1;
+			n1->last = u2;
+		}
+*/
+/*
 		n1->next = u1;
         n1->last = u2;
-		n2->last = u1;
-		*/
+        l1->next = u2;
+
+		u1->next = n2;	
+        u1->last = n1;
+        u2->next = l2;
+        u2->last = l1;
+*/
+		//n1->next = u1;
+        //n1->last = u2;
+        //l1->next = u2;
+
+		sort_b_m(u1->next);
 	}
 	else
-	{	
+	{
+		letter1 = u1->letter;
+        field1 = u1->field;
+        u1->letter = u2->letter;
+        u1->field = u2->field;
+        u2->letter = letter1;
+        u2->field = field1;
+        sort_b_m(u1->next);
+
+/*
 		l1->next = u2;
 		write(1, "S-14\n", 5);
 		n2->last = u1;
@@ -254,8 +323,10 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 		u2->next = l2;
 		write(1, "S-18\n", 5);
 		u2->last = l1;
+		sort_b_m(u2->next);
+*/
 	}
-	sort_b_m(u2->next);	
+
 	
 /*	
 	n1->last = u2;

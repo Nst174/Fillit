@@ -6,7 +6,7 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:44:59 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/11 11:43:46 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/13 18:29:47 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char **write_f_f(char **final_f, t_fill *p, int a, int b, int g)
 	i = 0;
 	j = 0;
 	k = p;
-	while (j < g)
+	while (j < 4)
 	{
 		//write(1, "7", 1);
 		while (k->field[j][i] != '\0')
@@ -54,7 +54,7 @@ int itap(char **final_f, t_fill *lists, int a, int b, int g)
 	int j;
 	t_fill *k;
 
-	write(1, "PLASE", 5);
+	//write(1, "PLASE", 5);
 	k = lists;
 	i = 0;
 	j = 0;
@@ -65,28 +65,28 @@ int itap(char **final_f, t_fill *lists, int a, int b, int g)
         return (0);
     }
 */
-	while (j < g)
+	while (j < 4)
 	{
-		//write(1, "1", 1);
+		write(1, "1", 1);
 		while (k->field[j][i] != '\0')
 		{
-			//write(1, "2", 1);
+			write(1, "2", 1);
 			if (k->field[j][i] != '.')
 			{
-				//write(1, "3", 1);
+				write(1, "3", 1);
 				if (((a + i) >= g) || ((b + j) >= g))
 				{
-					//write(1, " return 0 \n", 11);
+					write(1, " return 0 \n", 11);
 					return (0);
 				}
-				//write(1, "4", 1);
+				write(1, "4", 1);
 				if (final_f[b + j][a + i] == '.')
 				{
-					//write(1, "5", 1);
+					write(1, "5", 1);
 				}
 				else
 				{
-					//write(1, " return 0 \n", 11);
+					write(1, " return 0 \n", 11);
 					return (0);
 				}
 			}
@@ -108,7 +108,9 @@ int where_coord(char **final_f, t_fill *lists, int g)
 	int a;
 	//int s;
 	t_fill *k;
-
+	print2(lists);
+	print3(final_f, g);
+	//ft_putnbr(g);
 	k = lists;
 	//printf("%d", 3);
 	a = 0;
@@ -132,8 +134,10 @@ int where_coord(char **final_f, t_fill *lists, int g)
 						write(1, "III\n\n", 5);
 						k = k->next;
 						write(1, "LLL\n\n", 5);
-						//print(k);
+						//print2(k);
 						a++;
+						if (k == NULL && a == 4)
+							return (1);
 						
 					}
 					write(1, "KKK\n\n", 5);
@@ -142,6 +146,14 @@ int where_coord(char **final_f, t_fill *lists, int g)
 					{
 						write(1, "SPp\n", 4);
 						k = sort_lists(lists, k->letter, g);
+						if (big_little(k) == 1)
+						{
+							write(1, "B_L-EXIT\n", 9);
+							return_sort(k);
+							print2(k);
+							free(final_f);
+							return (0);
+						}
 						write(1, "SSS\n", 4);
 						fff(final_f, g);
 						write(1, "GGG\n\n", 5);
@@ -150,7 +162,7 @@ int where_coord(char **final_f, t_fill *lists, int g)
 						lists = k;
 						a = 0;
 						print2(k);
-						//print3(final_f);
+								//print3(final_f);
 					}
 					/*if (a > 5)
 					{
@@ -169,11 +181,11 @@ int where_coord(char **final_f, t_fill *lists, int g)
 			//k = k->next;// решает если подряд не помещаются
 			i = 0;
 			j = 0;
-			write(1, "GGG\n\n", 5);
+			write(1, "\nHHH\n", 5);
 			//write(1, "H", 1);
 		}
 	//write(1, "L", 1);
-	return(0);
+	return (0);
 }
 /*
 **
@@ -182,16 +194,25 @@ char **field_in_final_f(char **final_f, t_fill *lists, int h_f, int g)
 {
 	t_fill *k;
 	int    f;
+	char **finish_f;
+	int gg;
 	//printf("%d", 2);
 	//f = h_f;
+	gg = g;
+	finish_f = final_f;
 	f = 1;
 	k = lists;
-	while (f > 0)
+	while (where_coord(finish_f, lists, gg) == 0)
 	{
+		write(1, "FIFF\n", 5);
+		gg++;
+		finish_f = create_final_f(gg);
+		print3(finish_f, gg);
+		/*
 		where_coord(final_f, lists, g);
-		f--;
+		f--;*/
 	}
-	return(final_f);
+	return(finish_f);
 }
 /*
 **создаем итоговый массив и выделяем под него память
@@ -224,7 +245,10 @@ char **create_final_f(int a)
 			i++;
 		}
 		if (i == k)
+		{
+			write(1, "CFF\n", 4);
 			final_f[j][i] = '\0';
+		}
 		j++;
 		i = 0;
 	}
