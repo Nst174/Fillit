@@ -1,0 +1,82 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_write.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/15 15:41:42 by jcremin           #+#    #+#             */
+/*   Updated: 2019/04/16 17:47:17 by jcremin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fillit.h"
+
+void write_f_f_one(char **final_f, t_fill *p, int a, int b, int g)
+{
+	int i;
+    int j;
+    t_fill *k;
+
+     write(1, "WFFT-1\n", 7);
+    i = 0;
+    j = 0;
+    k = p;
+    while (j < 4)
+    {
+		write(1, "WFFT-2\n", 7);
+        while (k->field[j][i] != '\0')
+        {
+			write(1, "WFFT-3\n", 7);
+            if (k->field[j][i] != '.')
+            {
+				write(1, "WFFT-4\n", 7);
+                if (final_f[b + j][a + i] == '.')
+                {
+					write(1, "WFFT-5\n", 7);
+                    final_f[b + j][a + i] = k->field[j][i];
+                }
+            }
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+	write(1, "WFFT-6\n", 7);
+
+}
+
+void write_f_f_two(char **final_f, t_fill *p, int a, int b, int g, int h)
+{
+    int i;
+    int j;
+    t_fill *k;
+
+
+	write(1, "WFFT-2\n", 7);
+    i = 0;
+    j = 0;
+    k = p;
+    while (j < 4)
+    {
+		write(1, "WFFT-2\n", 7);
+		while (k->field[j][i] != '\0')
+		{
+			write(1, "WFFT-3\n", 7);
+            if (k->field[j][i] != '.')
+            {
+				write(1, "WFFT-4\n", 7);
+				if (final_f[b + j][a + i - h] == '.')
+				{
+					write(1, "WFFT-5\n", 7);
+                    final_f[b + j][a + i - h] = k->field[j][i];
+				}
+            }
+            i++;
+		}
+        i = 0;
+		j++;
+    }
+	write(1, "WFFT-6\n", 7);
+
+}

@@ -6,13 +6,13 @@
 /*   By: jcremin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 20:48:26 by jcremin           #+#    #+#             */
-/*   Updated: 2019/04/13 18:25:35 by jcremin          ###   ########.fr       */
+/*   Updated: 2019/04/16 19:38:21 by jcremin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	fff(char **final_f, int g)
+void	fff(char **final_f, int g, char letter)
 {
 	int i;
 	int j;
@@ -23,7 +23,7 @@ void	fff(char **final_f, int g)
 	{
 		while (i < g)
 		{
-			if (final_f[j][i] != '.')
+			if (final_f[j][i] == letter)
 				final_f[j][i] = '.';
 			i++;
 		}
@@ -39,8 +39,8 @@ int    print3(char **f_f, int g)
 
     i = 0;
     j = 0;
-    while (f_f[j][i] != '\0')
-    {
+	while (f_f[j][i] != '\0')
+	{
         while (j < g)
         {
             while (i < g)
@@ -55,9 +55,10 @@ int    print3(char **f_f, int g)
 		j = g - 1;
 		i = g;
         write(1, "\n", 1);
+		write(1, &f_f[j][i], 1);
 		//j = 0;
 		write(1, "P3-1\n", 5);
-    }
+	}
 	write(1, "P3-2\n", 5);
 	return(0);
 }
@@ -208,23 +209,39 @@ void sort_b_m(t_fill *sort_mass)
 			if (n2 == NULL)
 			{
 				write(1, "S-22-1\n", 7);
+				letter1 = u1->letter;
+				field1 = u1->field;
+				u1->letter = u2->letter;
+				u1->field = u2->field;
+				u2->letter = letter1;
+				u2->field = field1;
+                /*
 				l1->next = u2;
 				u2->last = l1;
 				u2->next = u1;
 				u1->last = u2;
 				u1->next = NULL;
-				sm = u2;
+				*/
+				sm = u1;
 			}
 			else
 			{
 				write(1, "S-22-2\n", 7);
+				letter1 = u1->letter;
+				field1 = u1->field;
+				u1->letter = u2->letter;
+				u1->field = u2->field;
+				u2->letter = letter1;
+				u2->field = field1;
+				/*
 				l1->next = u2;
 				n2->last = u1;
 				u1->next = n2;
 				u1->last = n1;
 				u2->next = l2;
 				u2->last = l1;
-				sm = u2;
+				*/
+				sm = u1;
 			}
 		}
 		else
@@ -238,7 +255,7 @@ void sort_b_m(t_fill *sort_mass)
 	write(1, "S-25\n", 5);
 }
 
-t_fill *sort_lists(t_fill *ed_lists, char let, int g)
+t_fill *sort_lists(t_fill *ed_lists, char let, int g, int h_f)
 {
 	int i;
 	int j;
@@ -274,7 +291,7 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 		p = p->next;
 		i--;
 	}
-	if ((p->letter - 65) == (4 - 1))
+	if ((p->letter - 65) == (h_f - 1))
 	{
 		write(1, "S-5\n", 4);
 		p = p->last;
@@ -287,16 +304,43 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 	j = 1;
 	write(1, "S-7\n", 4);
 
-	char o;
-	o = 'o';
+	i = 0;
 
-	while (r->letter != u1->letter + j)
+
+	write(1, &u1->letter, 1);
+	while (r != NULL)
+	{
+		write(1, &u1->letter, 1);
+		write(1, "S-7-1\n", 6);
+		print2(r->last);
+		if ('A' + j > 'A' + h_f - 1)
+		{
+			u1 = u1->last;
+			r = u1;
+			j = 1;
+		}
+		if (r->letter == u1->letter + j)
+			break;
+		if (r->next == NULL)
+		{
+			write(1, "S-7-3\n", 6);
+			j++;
+			r = u1;
+		}
+		else
+			r = r->next;
+		write(1, "S-7-4\n", 6);
+		write(1, &j, 1);
+	}
+
+//последнее рабочее условие
+/*	while (r->letter != u1->letter + j)
 	{
 		//write(1, o, 1);
 		write(1, &u1->letter, 1);
 		write(1, &u2->letter, 1);
 		write(1, "S-8\n", 4);
-		if (r->letter == 'A' + 4 - 1 /*&& r->letter != u1->letter + j*/)
+		if (r->letter == 'A' + h_f - 1)
 		{
 			write(1, "S-9\n", 4);
 			j++;
@@ -309,7 +353,7 @@ t_fill *sort_lists(t_fill *ed_lists, char let, int g)
 		r = r->next;
 		write(1, "S-8-2\n", 6);
 	}
-
+*/
 	write(1, "S-10\n", 5);
 	u2 = r;
 	write(1, "S-11\n", 5);
